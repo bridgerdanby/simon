@@ -1,3 +1,3 @@
-# simon-html
+# simon
 
-This deliverable demonstrates the use of basic HTML elements for structure, basic formatting, input, output, links, and drawing.
+This mimics the class Simon project with the HTML and CSS elements
