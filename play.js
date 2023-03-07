@@ -27,9 +27,9 @@ class Button {
     async play(volume = 1.0) {
         this.sound.volume = volume;
         await new Promise((resolve) => {
-            this.sound.onened = resolve;
+            this.sound.onended = resolve;
             this.sound.play();
-        })
+        });
     }
 }
 
@@ -52,6 +52,9 @@ class Game {
                 this.buttons.set(el.id, new Button(btnDescriptions[i], el));
             }
         });
+
+        const playerNameEl = document.querySelector('.player-name');
+        playerNameEl.textContent = this.getPlayerName();
     }
 
     async pressButton(button) {
@@ -59,9 +62,9 @@ class Game {
             this.allowPlayer = false;
             await this.buttons.get(button.id).press(1.0);
 
-            if (this.sequence[this.playerPlaybackPos].el.id == button.id) {
+            if (this.sequence[this.playerPlaybackPos].el.id === button.id) {
                 this.playerPlaybackPos++;
-                if (this.playerPlaybackPos == this.sequence.length) {
+                if (this.playerPlaybackPos === this.sequence.length) {
                     this.playerPlaybackPos = 0;
                     this.addButton();
                     this.updateScore(this.sequence.length - 1);
@@ -76,14 +79,14 @@ class Game {
         }
     }
 
-    async rest() {
+    async reset() {
         this.allowPlayer = false;
         this.playerPlaybackPos = 0;
         this.sequence = [];
         this.updateScore('--');
         await this.buttonDance(1);
         this.addButton();
-        await this.playSequence;
+        await this.playSequence();
         this.allowPlayer = true;
     }
 
@@ -110,7 +113,7 @@ class Game {
     }
 
     async buttonDance(laps = 1) {
-        for (let step = 0; step < leaps; step++) {
+        for (let step = 0; step < laps; step++) {
             for (const btn of this.buttons.values()) {
                 await btn.press(0.0);
             }
@@ -119,7 +122,7 @@ class Game {
 
     getRandomButton() {
         let buttons = Array.from(this.buttons.values());
-        return buttons[Math.floor(Math.random * this.buttons.size)];
+        return buttons[Math.floor(Math.random() * this.buttons.size)];
     }
 
     saveScore(score) {
@@ -127,7 +130,7 @@ class Game {
         let scores = [];
         const scoresText = localStorage.getItem('scores');
         if (scoresText) {
-            scores. JSON.parse(scoresText);
+            scores = JSON.parse(scoresText);
         }
         scores = this.updateScores(userName, score, scores);
 
@@ -163,7 +166,7 @@ const game = new Game();
 
 function delay(milliseconds) {
     return new Promise((resolve) => {
-        setTimeour(() => {
+        setTimeout(() => {
             resolve(true);
         }, milliseconds);
     });

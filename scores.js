@@ -2,7 +2,7 @@ function loadScores() {
     let scores = [];
     const scoresText = localStorage.getItem('scores');
     if (scoresText) {
-        socres = JSON.parse(scoresText);
+        scores = JSON.parse(scoresText);
     }
 
     const tableBodyEl = document.querySelector('#scores');
@@ -17,7 +17,7 @@ function loadScores() {
             positionTdEl.textContent = i + 1;
             nameTdEl.textContent = score.name;
             scoreTdEl.textContent = score.score;
-            dateTdEl.TdEl.textContent= score.date;
+            dateTdEl.textContent = score.date;
 
             const rowEl = document.createElement('tr');
             rowEl.appendChild(positionTdEl);
